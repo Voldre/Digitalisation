@@ -16,6 +16,8 @@
         <input type="radio" name="AUTORISATIONS_PARTICULIERES" value=1 <?=$valueOui?> > Oui
         <input type="radio" name="AUTORISATIONS_PARTICULIERES" value=0 <?=$valueNon?> > Non
 
+Refresh obligatoire dans le code PHP (où on veut) :   echo "<meta http-equiv='refresh' content='0'>";
+
 
 */
 
@@ -24,7 +26,9 @@ session_start();
 require("header.php");
 
 
-echo "<form action=\"index.php\"> <input type=\"submit\" value =\"Retourner à l'accueil\" > </form>";
+echo "<form action=\"index.php\"> <p><input type=\"submit\" value =\"Retourner à l'accueil\" > </p></form>";
+
+
 
 $liste_RP_EPI = array();
 $liste_sur_OT_RP_EPI = array(); // A bien définir au cas où l'OT soit nouveau donc aucun RP_EPI sur l'OT
@@ -70,21 +74,22 @@ $requete->closeCursor();
         $reponse->closeCursor(); ?>
 <h4>Ordre de travail : <?= $data['DESIGNATION'] ?></h4>
 
-</div>  <!-- Mettre la désignation dans un formulaire? -->
 
 
 <h4>N° d'infirmerie : 1010 &nbsp;&nbsp;&nbsp; N° pompier : 18  &nbsp;&nbsp;&nbsp; 
     Poste surveillance : 34452 &nbsp;&nbsp;&nbsp;   Accueil : 112 &nbsp;&nbsp;&nbsp;  SAMU : 15</h4>
 
+</div>  <!-- Mettre la désignation dans un formulaire? -->
+
 
 
     <!--SAISIE DES DIFFERENTS PARAMETRES DE SECURITE-->
 
+    <h3 style="text-align : center;">Evaluation sécurité pour autorisation d'intervention</h3>
+
         <div class="main">
 
-<h3>Evaluation sécurité pour autorisation d'intervention</h3>
-
-<form action="OT.php" method="post"> <!-- Ajout de action pour bien MàJ les cases cochées -->
+<form action="OT_1.php" method="post"> <!-- Ajout de action pour bien MàJ les cases cochées -->
 
 <?php       // SAISIE DES QUESTIONS LISTE
 
@@ -93,41 +98,105 @@ $liste_tableau = ["Proprio_Inter","Inter"];
 
 foreach($liste_tableau as $cible_global){
 
-echo "<div class=\"liste0\">";
     if($cible_global == "Proprio_Inter"){
-        echo "<h4>Propriétaire de l'équipement et intervenants</h4>";
+        echo "<h4>Propriétaire de l'équipement et intervenants</h4> 
+        <h5>- - Chaussures de sécurité obligatoires - -</h5>";
     } else if($cible_global =="Inter"){
-        echo "<h4>Intervenants</h4>";
+        echo "<h4>Intervenants</h4> 
+        <h5>- - Vêtements couvrants obligatoires - -</h5>";
     }
 
+    echo "<div class=\"liste0\">";
+
     $liste_types = array("risques" => "risque","precautions" => "precaution","epi" => "epi");
+
+    // Définir les emplacements des espaces pour que les lignes correspondent :
+    $liste_spaces = array("Anoxie", "Travail en hauteur","Détection azote à proximité","Balisage zone","Oxygènomètre","Protection travailleur isolé");
+
+    // Liste des cases en dessous des quelles il faut tracer une ligne
+    $liste_blocs = array(1003,1006,1010,1012);
 
     foreach($liste_types as $key_type => $value_type){ // Optimisaton pour 1 boucle pour chaque type
    ?>
     <div class="liste">
         <h4><b><?= strtoupper($key_type) ?></b></h4>
         <?php
-            // Si on est dans la case EPI
-        if($key_type == "EPI"){
-            if($cible_global == "Proprio_Inter"){ echo "<h5>- - Chaussures de sécurité obligatoires - -</h5>";
-            } else { echo "<h5>- - Vêtements couvrants obligatoires - -</h5>"; } // Pour les 2 entêtes de "EPI"
-        }
                                 // <=> ID
         foreach($liste_RP_EPI as $key => $value){   // Optimisation pour 1 boucle pour chaque paramètre (check)
             foreach($value as $key2 => $value2){    // <=> "nom champ, valeur champ"
                 if($key2 == "Type" && $value2 == $key_type && $liste_RP_EPI[$key]['Cible'] == $cible_global){
-        
+
+
+                    if($key_type == "epi" && $cible_global == "Inter"){
+                        break; // On traite séparément cette colonne
+                        // Donc on sort pour pas la traiter normalement
+                    }
                         // Si l'ID actuel est DANS LISTE d'ID rattachés à l'OT, alors
+                                                                    // Si pas dans la colonne EPI INTER (car particulier)
                         if( in_array($key,$liste_sur_OT_RP_EPI) ){ 
-                            echo "<p><label><input type=\"checkbox\" name=$key value=1 checked >"; // checked by default!
+                            echo "<p><b><label><input type=\"checkbox\" name=$key value=1 checked >"; // checked by default!
                         } else{ echo "<p><label><input type=\"checkbox\" name=$key value=1 >"; 
                         }
-                        echo $liste_RP_EPI[$key]['NOM']."</label></p>";
+                        echo $liste_RP_EPI[$key]['NOM']."</label></b></p>";
+
+                        if(in_array($liste_RP_EPI[$key]['NOM'],$liste_spaces)){ 
+                            // Si le nom de du RP_EPI apparaît dedans, alors :
+                            echo "<p> &nbsp; </p>";
+                            if($liste_RP_EPI[$key]['NOM'] == "Balisage zone"){
+                                for($i=1; $i <=3; $i++){
+                                    echo "<p> &nbsp; </p>"; // *3 +1
+                                }
+                            }
+                            if($liste_RP_EPI[$key]['NOM'] == "Protection travailleur isolé"){
+                                for($i=1; $i <=4; $i++){
+                                    echo "<p> &nbsp; </p>"; // *4 +1
+                                }
+                            }
+                        }
+                            // Tracer une ligne?
+                        if( in_array($liste_RP_EPI[$key]['ID'],$liste_blocs) && $cible_global == "Inter" ){
+                            echo "________________________________";
+                        }
+
                     }
                 }
             } 
+            // Si on est dans la case EPI INTER, on la remplie à la main
+        if($key_type == "epi" && $cible_global == "Inter"){
+
+            for($i=0; $i <= 2; $i++){
+
+                if($i != 0){    // Si on a est pas dans la colonne 1, on ajoute Visière puis Casque / Casquette
+                    echo "________________________________";
+                }
+
+                if( in_array(1017,$liste_sur_OT_RP_EPI) ){ 
+                    echo "<p><label><input type=\"checkbox\" name=1017 value=1 checked >"; // checked by default!
+                } else{ echo "<p><label><input type=\"checkbox\" name=1017 value=1 >"; 
+                }
+                echo $liste_RP_EPI[1017]['NOM']."</label></p>";
+
+                if( in_array(1018,$liste_sur_OT_RP_EPI) ){ 
+                    echo "<p><label><input type=\"checkbox\" name=1018 value=1 checked >"; // checked by default!
+                } else{ echo "<p><label><input type=\"checkbox\" name=1018 value=1 >"; 
+                }
+                echo $liste_RP_EPI[1018]['NOM']."</label></p>";
+
+
+                if($i != 0){    // Si on a est pas dans la colonne 1, on ajoute Visière puis Casque / Casquette
+                    if( in_array(1018+$i,$liste_sur_OT_RP_EPI) ){ 
+                        echo "<p><label><input type=\"checkbox\" name=".(1018+$i)." value=1 checked >"; // checked by default!
+                    } else{ echo "<p><label><input type=\"checkbox\" name=".(1018+$i)." value=1 >"; 
+                    }
+                    echo $liste_RP_EPI[1018+$i]['NOM']."</label></p>";
+     
+                }
+            }
+
+        }
+
     echo "</div>"; // de <div class="liste">
-          } // Fin du foreach des 3 types 
+    } // Fin du foreach des 3 types 
 
  echo "</div><br/><br/>"; // Saut de ligne pour la transition des 2 tableaux (des 2 cibles)
 
@@ -181,7 +250,7 @@ $reponse->closeCursor();
     ?> 
     <label>Autre bâtiment visité dans la journée (risque de contamination croisée) :<input type="radio" name="RISQUES_BIOLOGIQUES" value=1 <?=$valueOui?> >Oui  
                                                                                 <input type="radio" name="RISQUES_BIOLOGIQUES" value=0 <?=$valueNon?> >Non </br>
-       Si oui, lequel :<input type="text" name="RISQUES_BIOLOGIQUES_DESIGNATION" value=<?php $data['RBD']; // Même si null ?> >.
+       Si oui, lequel :<input type="text" name="RISQUES_BIOLOGIQUES_DESIGNATION" value=<?php echo $data['RBD']; // Même si null ?> >.
 
        <?php if($data['RBA'] == 1){ $valueOui = 'checked'; $valueNon = null; }
             else if($data['RBA'] == 0){ $valueOui = null; $valueNon = 'checked'; }
@@ -193,7 +262,21 @@ $reponse->closeCursor();
 
 <br/><br/>
 
-<input type="submit" name="questions" value="Mettre à jour toutes les réponses">
+
+<?php
+// Récupération des signatures déjà faites :
+          
+$requete = $db->prepare('SELECT SIGNATURE_PROPRIO_DEBUT AS SPD, SIGNATURE_INTERVENANT_DEBUT AS SI FROM OT WHERE ID = ?');
+$requete->execute(array($_SESSION['OT_ID']));
+
+$data = $requete->fetch();
+
+if(isset($data['SPD']) OR isset($data['SI'])){
+    echo "<p class=\"red\">Les réponses ne peuvent plus être mises à jour, le document a déjà été signé par au moins une personne.</p>";
+}else{   ?>
+<input type="submit" name="questions" value="Mettre à jour toutes les réponses">  
+
+<?php   }   ?>
 
 </form> 
 
@@ -220,8 +303,11 @@ if(isset($_POST['questions'])){
             $_POST['RISQUES_BIOLOGIQUES_ACCES'] = null;
         }
         else{
-            if(strlen($_POST['RISQUES_BIOLOGIQUES_DESIGNATION']) < 5){
+            if(strlen($_POST['RISQUES_BIOLOGIQUES_DESIGNATION']) < 1){
                 $_POST['RISQUES_BIOLOGIQUES_DESIGNATION'] = "A définir";
+            }
+            else{
+                $_POST['RISQUES_BIOLOGIQUES_DESIGNATION'] = htmlspecialchars($_POST['RISQUES_BIOLOGIQUES_DESIGNATION']);
             }
         }
 
@@ -317,98 +403,20 @@ if(isset($_POST['questions'])){
     echo "<meta http-equiv='refresh' content='0'>"; // Obliger de refresh / reset car ça se fait mal
 }
 
+// Page suivante ?
 
+$requete = $db->prepare('SELECT Type, COUNT(*) AS Count FROM OT_RP_EPI, Risques_Precautions_EPI WHERE ID_RP_EPI = ID AND ID_OT = ? GROUP BY Type');
+$requete->execute(array( $_SESSION['OT_ID']));
+$nb_categories = 0;
+while($data = $requete->fetch()){
+$nb_categories++;    
+}
+if($nb_categories >= 3){
+echo "<br/><form action=\"OT_2.php\"> <p><input type=\"submit\" value =\"Page suivante\" > </p></form>";
+}
 
     ?>      </div>  <!-- Fin du bloc de questions, passage au bloc de signatures -->
-        <div class="main">
 
-        <h3>Signatures de la partie Evaluation sécurité</h3>
-
-    <?php
-
-// SIGNATURE
-
-    $isCheck1 = false;
-    $isCheck2 = false;
-
-    // Si les questions ont été remplis (donc AUTORISATIONS_PARTICULIERES et RISQUES_BIOLOGIQUES != 0)
-        // et que l'OT est associé à au moins 3 Risques/Precautions/EPI, alors :
-
-    $reponse = $db->prepare('SELECT AUTORISATIONS_PARTICULIERES AS autorisation, RISQUES_BIOLOGIQUES AS risques 
-                                FROM OT WHERE ID = ?');
-        $reponse->execute(array($_SESSION['OT_ID']));
-
-    $data = $reponse->fetch();
-
-    if(isset($data['autorisation']) && isset($data['risques'])){
-        $isCheck1 = true;
-    }
-    $reponse->closeCursor();
-
-
-    $reponse = $db->prepare('SELECT COUNT(*) as Count FROM OT_RP_EPI WHERE ID_OT = ?'); 
-    $reponse->execute(array($_SESSION['OT_ID']));
-
-    $data = $reponse->fetch();
-
-    if($data['Count'] >= 3){
-        $isCheck2 = true;
-    }
-    $reponse->closeCursor();
-
-
-
-    if($isCheck1 && $isCheck2){ // Si tout est OK, on ajoute le formulaire des signatures
-        
-        require("Signatures.php");
-    
-    }
-    else{
-        echo "<p>Vous débloquerez la partie signature de l'OT lorsque vous aurez répondu à toutes les questions et remplie chaque catégorie.</p>";
-    }
-    
-
-  // ENREGISTREMENT DES SIGNATURES
-
-if(isset($_POST['signature1'])){
-    $_POST['nom_proprio'] = htmlspecialchars($_POST['nom_proprio']);
-    if(strlen($_POST['nom_proprio']) > 4)
-    {
-    $img = $_POST['signature1'];
-    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-    file_put_contents($_SESSION['OT_ID'].'_signature_proprio_debut.png', $data);
-
-    $reponse = $db->prepare('UPDATE OT SET SIGNATURE_PROPRIO_DEBUT = ? , SIGNATURE_PROPRIO_DEBUT_DATE = NOW() WHERE  ID = ? ');
-    $reponse->execute(array( $_POST['nom_proprio'], $_SESSION['OT_ID']));
-    $reponse->closeCursor();
-
-    echo "<p>La signature de \"".$_POST['nom_proprio']."\" a bien été ajoutée.</P>";
-    }
-    else{ echo "<p class=\"red\">Erreur : Le nom du propriétaire saisi est trop court.</p>"; }
-}
-
-if(isset($_POST['signature2'])){
-    $_POST['nom_intervenant'] = htmlspecialchars($_POST['nom_intervenant']);
-    if(strlen($_POST['nom_intervenant']) > 4)
-    {
-    $img = $_POST['signature2'];
-    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-    file_put_contents($_SESSION['OT_ID'].'_signature_intervenant.png', $data);
-
-    $reponse = $db->prepare('UPDATE OT SET SIGNATURE_INTERVENANT = ? , SIGNATURE_INTERVENANT_DATE = NOW() WHERE  ID = ? ');
-    $reponse->execute(array( $_POST['nom_intervenant'], $_SESSION['OT_ID']));
-    $reponse->closeCursor();
-    
-    echo "<p>La signature de \"".$_POST['nom_intervenant']."\" a bien été ajoutée.</P>";
-    }
-    // AJOUTER LES DATES AVEC NOW()
-
-    else{ echo "<p class=\"red\">Erreur : Le nom du propriétaire saisi est trop court.</p>"; }
-}
-
-?>
-
-    </div> <!-- Fin du deuxième div main (pour les signatures) -->
 
 </body>
 </html>

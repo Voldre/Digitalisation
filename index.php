@@ -14,6 +14,8 @@ $_SESSION['message'] = array();
 include("header.php");
 ?>
 
+<div class="main">
+
 <h1>Formulaire de création d'OT</h1>
 
 <h4>Remplissez le formulaire ci-dessous pour créer ou ouvrir la partie sécurité d'un OT</h4>
@@ -48,9 +50,9 @@ include("header.php");
 <?php           // Une fois le formulaire validé
 
 if(isset($_POST["valide"])){
+    $numero_OT = (int) $_POST['numero'];
 
-    if($_POST['numero'] != "" and $_POST['numero'] != "0"){
-        $numero_OT = $_POST['numero'];
+    if($numero_OT != null and $numero_OT != 0){
     }else{
         echo "<p class=\"red\">Erreur, le numéro d'OT n'est pas valide.</p>";
         $_POST["valide"] = "Erreur";
@@ -65,8 +67,8 @@ if(isset($_POST["valide"])){
         if(strlen( $_POST['designation'] ) < 5 ){
             echo "<p class=\"red\">Erreur, la désignation de l'OT est trop courte.</p>";
         }
-        else{
-            $requete = $db->prepare('INSERT INTO OT(ID,DESIGNATION) VALUES(?,?)');
+        else{                                                   // Par défaut, impact GXP à OUI
+            $requete = $db->prepare('INSERT INTO OT(ID,DESIGNATION,GXP_IMPACT) VALUES(?,?,1)');
             try{
             $requete->execute(array($numero_OT,$_POST['designation']));
             
@@ -99,7 +101,7 @@ if(isset($_POST["valide"])){
 
            $_SESSION['OT_ID'] = $numero_OT;
 
-            header("Location: OT.php");
+            header("Location: OT_1.php");
         }
     }
 }
@@ -148,6 +150,8 @@ if(isset($_POST['new'])){
 }
 
 ?>
+
+</div>
 
 </body>
 </html>
