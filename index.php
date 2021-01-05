@@ -1,6 +1,5 @@
 <?php
 
-
 // Ctrl + F5 pour rafraichir la page avec les propriétés CSS
 
 // https://stackoverflow.com/questions/42935656/create-an-html-form-with-digital-electronic-signature-using-php

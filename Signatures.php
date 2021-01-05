@@ -19,31 +19,40 @@ case 5 :
 $poste_signataire = "proprio_fin";
 }
 
-// ENREGISTREMENT DES SIGNATURES
-if(isset($_POST['valide'.$num])){
-                    // $num modulo 3, car SQO = 3 = "nouvelle signature, signature3" 
-                    // et après : INTERVENANT_FIN (4) prend dans OT_3 la signature1, donc 4 modulo 3 = 1
-                                // Par déduction, PROPRIO_FIN prend la signature2, donc case 5 donnera : 5 modulo 3 = 2
-                                // Ainsi, comme on a simultanément que jusqu'à 3 signatures, on peut faire case 1 à 5 et modulo 3
-    $sign =   $_POST['signature'.($num %3)];  // $num Modulo 3
-    $nom = $_POST['nom_'.$poste_signataire];
-    $nom = htmlspecialchars($nom);
-    if(strlen($nom) > 4)  // 5 caractères minimum, ce qui est logique : Nom + Prénom normalement
-    {                              // La signature est ajoutée pareil, NUMERO_signature_NomDuPoste.png
-    $img = $sign; 
-    $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
-    file_put_contents($_SESSION['OT_ID'].'_signature_'.$poste_signataire.'.png', $data);
-    $reponse = $database->prepare('UPDATE OT SET SIGNATURE_'.strtoupper($poste_signataire).' = ? , 
-                                    SIGNATURE_'.strtoupper($poste_signataire).'_DATE = NOW() WHERE  ID = ? ');
-                                                // SIGNATURE_SQO_DATE par exemple ! :)
-    $reponse->execute(array( $nom, $_SESSION['OT_ID']));
-    $reponse->closeCursor();
+    // ENREGISTREMENT DES SIGNATURES
+    if(isset($_POST['valide'.$num])){
+                        // $num modulo 3, car SQO = 3 = "nouvelle signature, signature3" 
+                        // et après : INTERVENANT_FIN (4) prend dans OT_3 la signature1, donc 4 modulo 3 = 1
+                                    // Par déduction, PROPRIO_FIN prend la signature2, donc case 5 donnera : 5 modulo 3 = 2
+                                    // Ainsi, comme on a simultanément que jusqu'à 3 signatures, on peut faire case 1 à 5 et modulo 3
+        $sign =   $_POST['signature'.($num %3)];  // $num Modulo 3
+        if($num ==3){
+            $sign =   $_POST['signature'.($num)];  // Car sinon 3 Modulo 3 = 0
+        }
+        $nom = $_POST['nom_'.$poste_signataire];
+        $nom = htmlspecialchars($nom);
+        if(strlen($nom) > 4)  // 5 caractères minimum, ce qui est logique : Nom + Prénom normalement
+        {                              // La signature est ajoutée pareil, NUMERO_signature_NomDuPoste.png
+        $img = $sign; 
 
-    echo "<p>La signature de \"".$nom."\" a bien été ajoutée.</P>";
-    echo "<meta http-equiv='refresh' content='0'>"; // Obliger de refresh / reset car ça se fait mal
+
+        echo $sign." => ".$sign." => ".$num;
+
+        $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+        file_put_contents($_SESSION['OT_ID'].'_signature_'.$poste_signataire.'.png', $data);
+        $reponse = $database->prepare('UPDATE OT SET SIGNATURE_'.strtoupper($poste_signataire).' = ? , 
+                                        SIGNATURE_'.strtoupper($poste_signataire).'_DATE = NOW() WHERE  ID = ? ');
+                                                    // SIGNATURE_SQO_DATE par exemple ! :)
+        $reponse->execute(array( $nom, $_SESSION['OT_ID']));
+        $reponse->closeCursor();
+
+        echo "<p>La signature de \"".$nom."\" a bien été ajoutée.</P>";
+        }
+        else{ $_SESSION['message'][] = "Erreur : Le nom de la personne saisi est trop court."; }
+
+        echo "<meta http-equiv='refresh' content='0'>"; // Obliger de refresh / reset car ça se fait mal
     }
-    else{ echo "<p class=\"red\">Erreur : Le nom de la personne saisi est trop court.</p>"; }
-}
+
 }
     // Test des signatures pour les 5 à faire
 for($i=1; $i <= 5; $i++){
@@ -68,15 +77,17 @@ var drawing = false;
 var prevX, prevY;
 var currX, currY;
 var signature1 = document.getElementsByName('signature1')[0];
-var signature2 = document.getElementsByName('signature2')[0]
+var signature2 = document.getElementsByName('signature2')[0];
 var signature3 = document.getElementsByName('signature3')[0];
 
 canvas1.addEventListener("mousemove", draw1)
 canvas1.addEventListener("mouseup", stop1);
-canvas1.addEventListener("mousedown", start)
-canvas2.addEventListener("mousemove", draw2)
-canvas2.addEventListener("mouseup", stop2)
+canvas1.addEventListener("mousedown", start);
+
+canvas2.addEventListener("mousemove", draw2);
+canvas2.addEventListener("mouseup", stop2);
 canvas2.addEventListener("mousedown", start);
+
 canvas3.addEventListener("mousemove", draw3);
 canvas3.addEventListener("mouseup", stop3);
 canvas3.addEventListener("mousedown", start);
@@ -98,7 +109,7 @@ signature2.value = canvas2.toDataURL();
 function stop3() {
 drawing = false;
 prevX = prevY = null;
-signature2.value = canvas3.toDataURL(); 
+signature3.value = canvas3.toDataURL(); 
 }
 
 function draw1(e) {
