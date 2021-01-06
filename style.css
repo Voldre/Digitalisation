@@ -52,6 +52,10 @@ img {
     border: solid 2px black;
 }
 
+h1 {
+    text-decoration: underline;
+}
+
 h3 {
     font-size: 25px;
     line-height: 80%;

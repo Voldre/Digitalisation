@@ -18,7 +18,6 @@
 
 Refresh obligatoire dans le code PHP (où on veut) :   echo "<meta http-equiv='refresh' content='0'>";
 
-
 */
 
 session_start();

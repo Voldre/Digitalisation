@@ -36,7 +36,7 @@ $poste_signataire = "proprio_fin";
         $img = $sign; 
 
 
-        echo $sign." => ".$sign." => ".$num;
+        //echo $sign." => ".$sign." => ".$num;
 
         $data = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
         file_put_contents($_SESSION['OT_ID'].'_signature_'.$poste_signataire.'.png', $data);

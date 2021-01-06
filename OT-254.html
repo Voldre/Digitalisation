@@ -101,7 +101,6 @@ label {
     justify-content: space-around;
     display: inline-flexbox;
     width: 90%;
-    line-height: 92%; /* Dans header_css, à l'impression PDF les items RP_EPI sont moins "espacés" */
 }
 
 .liste_no_border {
@@ -174,14 +173,17 @@ form>* {
 <body>
     
 <div class="main">
+    <form action="index.php"> <p>
 
-<!-- MàJ Janvier 2021, le header de l'export ne génère ni de "Page x/4", 
-        ni de titre d'OT, ni de bouton "Retourner à l'accueil"         -->
+ <input type="submit" value ="Retourner à l'accueil" > 
+
+    OT N°254<h5 class="float"><label>Page N/4</label></h5>    </p></form>
 
 
-<h3>OT N°27200</h3>
 
-<h4>Ordre de travail : Vernon</h4>
+<h3>N°254</h3>
+
+<h4>Ordre de travail : 254545</h4>
 
 
 
@@ -201,27 +203,26 @@ form>* {
 <h4>Propriétaire de l'équipement et intervenants</h4> 
         <h5>- - Chaussures de sécurité obligatoires - -</h5><div class="liste0">    <div class="liste">
         <h4><b>RISQUES</b></h4>
-        <p><b><input type="checkbox" name=1 value=1 checked ><label>Produits chimiques dangereux</label></b></p><p><input type="checkbox" name=2 value=1 ><label>Produits inflammables</label></b></p><p><input type="checkbox" name=3 value=1 ><label>Zone ATEX</label></b></p><p><b><input type="checkbox" name=4 value=1 checked ><label>Anoxie</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=5 value=1 ><label>Contamination de la zone</label></b></p><p><input type="checkbox" name=6 value=1 ><label>Travail en hauteur</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=7 value=1 ><label>Froid</label></b></p><p><input type="checkbox" name=8 value=1 ><label>Bruit</label></b></p><p><input type="checkbox" name=9 value=1 ><label>Travailleur isolé</label></b></p><p><input type="checkbox" name=10 value=1 ><label>Conduite d'engin</label></b></p><p><input type="checkbox" name=11 value=1 ><label>Travaux électrique sous tension</label></b></p><p><input type="checkbox" name=12 value=1 ><label>Travaux de terrassement</label></b></p><p><input type="checkbox" name=13 value=1 ><label>Travail en espace clos</label></b></p><p><input type="checkbox" name=14 value=1 ><label>Travaux par point chaud</label></b></p><p><input type="checkbox" name=1000 value=1 ><label>Aucun risque</label></b></p></div>    <div class="liste">
+        <p><input type="checkbox" name=1 value=1 ><label>Produits chimiques dangereux</label></b></p><p><input type="checkbox" name=2 value=1 ><label>Produits inflammables</label></b></p><p><input type="checkbox" name=3 value=1 ><label>Zone ATEX</label></b></p><p><input type="checkbox" name=4 value=1 ><label>Anoxie</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=5 value=1 ><label>Contamination de la zone</label></b></p><p><b><input type="checkbox" name=6 value=1 checked ><label>Travail en hauteur</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=7 value=1 ><label>Froid</label></b></p><p><input type="checkbox" name=8 value=1 ><label>Bruit</label></b></p><p><input type="checkbox" name=9 value=1 ><label>Travailleur isolé</label></b></p><p><input type="checkbox" name=10 value=1 ><label>Conduite d'engin</label></b></p><p><input type="checkbox" name=11 value=1 ><label>Travaux électrique sous tension</label></b></p><p><input type="checkbox" name=12 value=1 ><label>Travaux de terrassement</label></b></p><p><input type="checkbox" name=13 value=1 ><label>Travail en espace clos</label></b></p><p><input type="checkbox" name=14 value=1 ><label>Travaux par point chaud</label></b></p><p><input type="checkbox" name=1000 value=1 ><label>Aucun risque</label></b></p></div>    <div class="liste">
         <h4><b>PRECAUTIONS</b></h4>
-        <p><input type="checkbox" name=15 value=1 ><label>Stockage produits sur rétention</label></b></p><p><input type="checkbox" name=16 value=1 ><label>Elimination des déchets</label></b></p><p><input type="checkbox" name=17 value=1 ><label>Extincteurs à proximité</label></b></p><p><b><input type="checkbox" name=18 value=1 checked ><label>Détection azote à proximité</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=19 value=1 ><label>Déconta matériel entrant</label></b></p><p><input type="checkbox" name=20 value=1 ><label>Balisage zone</label></b></p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p><input type="checkbox" name=21 value=1 ><label>Permis CACES/PEMP</label></b></p><p><input type="checkbox" name=22 value=1 ><label>Permis de travail électrique sous tension</label></b></p><p><input type="checkbox" name=23 value=1 ><label>Permis de fouille</label></b></p><p><input type="checkbox" name=24 value=1 ><label>Permis de pénétrer</label></b></p><p><input type="checkbox" name=25 value=1 ><label>Permis de feu</label></b></p><p><input type="checkbox" name=1001 value=1 ><label>Aucune précaution</label></b></p></div>    <div class="liste">
+        <p><input type="checkbox" name=15 value=1 ><label>Stockage produits sur rétention</label></b></p><p><input type="checkbox" name=16 value=1 ><label>Elimination des déchets</label></b></p><p><input type="checkbox" name=17 value=1 ><label>Extincteurs à proximité</label></b></p><p><input type="checkbox" name=18 value=1 ><label>Détection azote à proximité</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=19 value=1 ><label>Déconta matériel entrant</label></b></p><p><b><input type="checkbox" name=20 value=1 checked ><label>Balisage zone</label></b></p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p><input type="checkbox" name=21 value=1 ><label>Permis CACES/PEMP</label></b></p><p><input type="checkbox" name=22 value=1 ><label>Permis de travail électrique sous tension</label></b></p><p><input type="checkbox" name=23 value=1 ><label>Permis de fouille</label></b></p><p><input type="checkbox" name=24 value=1 ><label>Permis de pénétrer</label></b></p><p><input type="checkbox" name=25 value=1 ><label>Permis de feu</label></b></p><p><input type="checkbox" name=1001 value=1 ><label>Aucune précaution</label></b></p></div>    <div class="liste">
         <h4><b>EPI</b></h4>
-        <p><input type="checkbox" name=26 value=1 ><label>Vêtements de protection chimique</label></b></p><p><input type="checkbox" name=27 value=1 ><label>Masque adapté</label></b></p><p><input type="checkbox" name=28 value=1 ><label>Gants adaptés</label></b></p><p><b><input type="checkbox" name=29 value=1 checked ><label>Lunettes adaptées</label></b></p><p><input type="checkbox" name=30 value=1 ><label>Oxygènomètre</label></b></p><p> &nbsp; </p><p><input type="checkbox" name=31 value=1 ><label>Harnais de sécurité</label></b></p><p><input type="checkbox" name=32 value=1 ><label>Casque / Casquette</label></b></p><p><input type="checkbox" name=33 value=1 ><label>Protection froid</label></b></p><p><input type="checkbox" name=34 value=1 ><label>Protection anti bruit</label></b></p><p><input type="checkbox" name=35 value=1 ><label>Protection travailleur isolé</label></b></p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p><input type="checkbox" name=1002 value=1 ><label>Aucune précaution EPI</label></b></p></div></div><br/><br/><h4>Intervenants</h4> 
+        <p><input type="checkbox" name=26 value=1 ><label>Vêtements de protection chimique</label></b></p><p><input type="checkbox" name=27 value=1 ><label>Masque adapté</label></b></p><p><input type="checkbox" name=28 value=1 ><label>Gants adaptés</label></b></p><p><input type="checkbox" name=29 value=1 ><label>Lunettes adaptées</label></b></p><p><input type="checkbox" name=30 value=1 ><label>Oxygènomètre</label></b></p><p> &nbsp; </p><p><b><input type="checkbox" name=31 value=1 checked ><label>Harnais de sécurité</label></b></p><p><input type="checkbox" name=32 value=1 ><label>Casque / Casquette</label></b></p><p><input type="checkbox" name=33 value=1 ><label>Protection froid</label></b></p><p><input type="checkbox" name=34 value=1 ><label>Protection anti bruit</label></b></p><p><input type="checkbox" name=35 value=1 ><label>Protection travailleur isolé</label></b></p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p> &nbsp; </p><p><input type="checkbox" name=1002 value=1 ><label>Aucune précaution EPI</label></b></p></div></div><br/><br/><h4>Intervenants</h4> 
         <h5>- - Vêtements couvrants obligatoires - -</h5><div class="liste0">    <div class="liste">
         <h4><b>RISQUES</b></h4>
-        <p><input type="checkbox" name=1004 value=1 ><label>Matériel contaminé</label></b></p><p><input type="checkbox" name=1003 value=1 ><label>Mécanique (Matériel ou pièce en mouvement)</label></b></p>________________________________<p><input type="checkbox" name=1005 value=1 ><label>Electrique : Contrôles, au voisinage,<br/> présence de pièces nues<br/> sous tension</label></b></p>________________________________<p><input type="checkbox" name=1006 value=1 ><label>Réseaux sous pression</label></b></p><p><input type="checkbox" name=1007 value=1 ><label>Chaud / Vapeur</label></b></p><p><input type="checkbox" name=1008 value=1 ><label>Appareils sous pression</label></b></p></div>    <div class="liste">
+        <p><input type="checkbox" name=1004 value=1 ><label>Matériel contaminé</label></b></p><p><input type="checkbox" name=1003 value=1 ><label>Mécanique (Matériel ou pièce en mouvement)</label></b></p>________________________________<p><input type="checkbox" name=1005 value=1 ><label>Electrique : Contrôles, au voisinage, présence <br/>
+de pièces nues sous tension</label></b></p><p><input type="checkbox" name=1006 value=1 ><label>Réseaux sous pression</label></b></p>________________________________<p><input type="checkbox" name=1007 value=1 ><label>Chaud / Vapeur</label></b></p><p><input type="checkbox" name=1008 value=1 ><label>Appareils sous pression</label></b></p></div>    <div class="liste">
         <h4><b>PRECAUTIONS</b></h4>
-        <p><input type="checkbox" name=1009 value=1 ><label>Déconta lavage installation</label></b></p><p><input type="checkbox" name=1010 value=1 ><label>Consignation mécanique</label></b></p>________________________________<p><input type="checkbox" name=1011 value=1 ><label>Consignation électrique</label></b></p><p><input type="checkbox" name=1012 value=1 ><label>Habilitation électrique selon la norme<br/> NFC 18-510</label></b></p>________________________________<p><input type="checkbox" name=1013 value=1 ><label>Vidange (équipement, tuyauterie)</label></b></p><p><input type="checkbox" name=1014 value=1 ><label>Evacuation effluents (purge, vapeur)</label></b></p><p><b><input type="checkbox" name=1015 value=1 checked ><label>Consignation fluides</label></b></p><p><input type="checkbox" name=1016 value=1 ><label>Habilitation consignation fluides</label></b></p></div>    <div class="liste">
+        <p><input type="checkbox" name=1009 value=1 ><label>Déconta lavage installation</label></b></p><p><input type="checkbox" name=1010 value=1 ><label>Consignation mécanique</label></b></p>________________________________<p><input type="checkbox" name=1011 value=1 ><label>Consignation électrique</label></b></p><p><input type="checkbox" name=1012 value=1 ><label>Habilitation électrique selon la nomre NFC 18-510</label></b></p>________________________________<p><input type="checkbox" name=1013 value=1 ><label>Vidange (équipement, tuyauterie)</label></b></p><p><input type="checkbox" name=1014 value=1 ><label>Evacuation effluents (purge, vapeur)</label></b></p><p><input type="checkbox" name=1015 value=1 ><label>Consignation fluides</label></b></p><p><input type="checkbox" name=1016 value=1 ><label>Habilitation consignation fluides</label></b></p></div>    <div class="liste">
         <h4><b>EPI</b></h4>
-        <p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p>________________________________<p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p><p><label><input type="checkbox" name=1019 value=1 >Visière</label></p>________________________________<p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p><p><label><input type="checkbox" name=1020 value=1 >Casque / Casquette</label></p></div></div><br/><br/>      <div class="page_break"></div>  <!-- MàJ Janvier 2021 : -->
-        <br/> <!-- Espaces utile car l'impression PDF donne saut de page -->
-
+        <p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p>________________________________<p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p><p><label><input type="checkbox" name=1019 value=1 >Visière</label></p>________________________________<p><label><input type="checkbox" name=1017 value=1 >Gants adaptés</label></p><p><label><input type="checkbox" name=1018 value=1 >Lunettes adaptées</label></p><p><label><input type="checkbox" name=1020 value=1 >Casque / Casquette</label></p></div></div><br/><br/>        <br class="page_break"/> <!-- Espace utile car impression PDF donne saut de page -->
 <h3>Autorisations particulières :
      
         <input type="radio" name="AUTORISATIONS_PARTICULIERES" value=1  > Oui
         <input type="radio" name="AUTORISATIONS_PARTICULIERES" value=0 checked > Non
 </h3>
 
-<p><br/> Si oui :</p>
+<p> Si oui :</p>
      
 <label>
     Plan de prévention particulier....<input type="radio" name="PLAN_PREV" value="particulier" >
@@ -230,7 +231,7 @@ form>* {
 
 <br/><br/>
 
-<h3>Risques biologiques :</h3>      <br/> <!-- MàJ Janvier 2021, saut de ligne pour aérer -->
+<h3>Risques biologiques :</h3>
      
     <label>Autre bâtiment visité dans la journée (risque de contamination croisée) :<input type="radio" name="RISQUES_BIOLOGIQUES" value=1  >Oui  
                                                                                 <input type="radio" name="RISQUES_BIOLOGIQUES" value=0 checked >Non </br>
@@ -266,9 +267,9 @@ form>* {
 <div class="short">
 
 <h4>Propriétaire de l'équipement ou son représentant :</h4>
-<p>Nom : success</p><p>Date : 23/12/2020 à 14:39:59</p><p> Signature :</p><img src="27200_signature_proprio_debut.png" /><canvas class="none" id="signature1" width="0" height="0"></canvas>      
+<p>Nom : sssss</p><p>Date : 06/01/2021 à 09:33:56</p><p> Signature :</p><img src="254_signature_proprio_debut.png" /><canvas class="none" id="signature1" width="0" height="0"></canvas>      
 <h4>Intervenant ou donneur d'ordre :</h4>
-<p>Nom : qssqqssq</p><p>Date : 23/12/2020 à 14:40:12</p><p> Signature :</p><img src="27200_signature_intervenant_debut.png" /><canvas class="none" id="signature2" width="0" height="0"></canvas>
+<p>Nom : qsqsq</p><p>Date : 06/01/2021 à 09:34:00</p><p> Signature :</p><img src="254_signature_intervenant_debut.png" /><canvas class="none" id="signature2" width="0" height="0"></canvas>
 </div><br/><br/>--------------------------------------------------------------------------------------------------------------------------------------------------------------------<br/><br/><div class="page_break"></div><br/><br/>
 <h3>Après intervention et avant redémarrage</h3>
 
@@ -295,28 +296,28 @@ demandées / prévues et sur le respect des consignes et mesures définies préa
         <input type="radio" name=GXP_PROG_MODIF value=0 checked > Non
         </label>
     </p><p>Un câblage a-t-il été modifié ? . . .  <label>
-        <input type="radio" name=GXP_CABLAGE_MODIF value=1 checked > Oui
-        <input type="radio" name=GXP_CABLAGE_MODIF value=0  > Non
+        <input type="radio" name=GXP_CABLAGE_MODIF value=1  > Oui
+        <input type="radio" name=GXP_CABLAGE_MODIF value=0 checked > Non
         </label>
     </p><p>Toutes les opérations non facultatives mentionnées dans l'ordre de travail sont réalisées ?  <label>
         <input type="radio" name=GXP_ALL_DONE value=1 checked > Oui
         <input type="radio" name=GXP_ALL_DONE value=0  > Non
         </label>
     </p><p>Un contrôle métrologique à prévoir : . . .  <label>
-        <input type="radio" name=GXP_CONTROLE value=1 checked > Oui
-        <input type="radio" name=GXP_CONTROLE value=0  > Non
+        <input type="radio" name=GXP_CONTROLE value=1  > Oui
+        <input type="radio" name=GXP_CONTROLE value=0 checked > Non
         </label>
     </p><p>L'équipement est-il fonctionnel : . . .  <label>
         <input type="radio" name=GXP_FONCTIONNEL value=1 checked > Oui
         <input type="radio" name=GXP_FONCTIONNEL value=0  > Non
         </label>
     </p><p>Le cahier de route est complété : . . .  <label>
-        <input type="radio" name=GXP_CAHIER_ROUTE_COMPLET value=1 checked > Oui
-        <input type="radio" name=GXP_CAHIER_ROUTE_COMPLET value=0  > Non
+        <input type="radio" name=GXP_CAHIER_ROUTE_COMPLET value=1  > Oui
+        <input type="radio" name=GXP_CAHIER_ROUTE_COMPLET value=0 checked > Non
         </label>
     </p>
 <p>Si non, observation : . . .  <!-- Différent car il s'agit d'un input type text -->
-<input type="text" name="GXP_CAHIER_ROUTE_OBSERV" value="" >
+<input type="text" name="GXP_CAHIER_ROUTE_OBSERV" value="Problème" >
 </p>                                                    <!-- On code du HTML, donc echo un tete va retirer les "", ex : $data[truc] = Ceci est un test
                                                                                 Dans le input type="text", on aura value=Ceci est un test
                                                                                 Autrement dit, il lira juste value="Ceci", car pas de guillemet
@@ -352,13 +353,9 @@ demandées / prévues et sur le respect des consignes et mesures définies préa
     <h3>Signatures après intervention</h3>
 
     <h4>Signature de l'intervenant :</h4>
-    <p>Nom : sdsddssd</p><p>Date : 23/12/2020 à 14:53:04</p><p> Signature :</p><img src="27200_signature_intervenant_fin.png" /><canvas class="none" id="signature1" width="0" height="0"></canvas>      
+    <p>Nom : ZEll zall</p><p>Date : 06/01/2021 à 09:52:37</p><p> Signature :</p><img src="254_signature_intervenant_fin.png" /><canvas class="none" id="signature1" width="0" height="0"></canvas>      
 
       <h3>Partie à remplir par le propriétaire :</h3>
 
 <h4>Signature du Propriétaire</h4>
-<p>Nom : ouuhqo</p><p>Date : 23/12/2020 à 14:52:56</p><p> Signature :</p><img src="27200_signature_proprio_fin.png" /><canvas class="none" id="signature2" width="0" height="0"></canvas> 
-        </div>
-        <div class="liste_no_border">
-<h4>Signature du SQO :</h4>
-<p>Nom : finish</p><p>Date : 23:12/2020 à 15:04:18</p><p> Signature :</p><img src="27200_signature_sqo.png" /><canvas class="none" id="signature3" width="0" height="0"></canvas> </div></div> 
+<p>Nom : loulo</p><p>Date : 06/01/2021 à 09:52:46</p><p> Signature :</p><img src="254_signature_proprio_fin.png" /><canvas class="none" id="signature2" width="0" height="0"></canvas><canvas class="none" id="signature3" width="0" height="0"></canvas> </div></div> 

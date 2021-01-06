@@ -5,6 +5,17 @@
 // https://stackoverflow.com/questions/42935656/create-an-html-form-with-digital-electronic-signature-using-php
   // Think to delete the Onsubmit() part, and the onsubmit= into the <form>
 
+// Préremplir en gris une zone de texte : placeholder="123456..."
+
+/*  MàJ  Janvier 2021 :
+- bouton "ouvrir OT" ouvre par défaut sur la dernière page écrite
+- Intégration Abode Sign ?
+- Nouveaux tests et confirmation
+- Amélioration du rendu de l'impression (saut de page)
+*/
+
+
+
 session_start();
 
 $_SESSION['OT_ID'] = -1;
@@ -15,20 +26,20 @@ include("header.php");
 
 <div class="main">
 
-<h1>Formulaire de création d'OT</h1>
+<h1>Formulaire "Sécurité et Qualité" d'un OT</h1>
 
-<h4>Remplissez le formulaire ci-dessous pour créer ou ouvrir la partie sécurité d'un OT</h4>
+<h4>Remplissez le formulaire ci-dessous pour créer ou ouvrir la partie "Sécurité et Qualité" d'un OT</h4>
 
 
 <form method="post">
 
     <div class="left">
-    <h3>Création d'un OT</h3>
+    <h3>Génération un OT</h3>
 
     <label>Numéro de l'OT-<input type="text" name="numero" placeholder="123456..."/></label>
     <label>Désignation de l'OT :<input type="text" name="designation" placeholder= "Préventif..."/></label>
     <br/>
-    <p class="center"><input type="submit" name="valide" value="Créer"/></p>
+    <p class="center"><input type="submit" name="valide" value="Générer"/></p>
     </div>
 
 </form>
@@ -38,7 +49,7 @@ include("header.php");
     <div class="right">
     <h3>Ouverture d'un OT</h3>
     
-    <label>Numéro de l'OT-<input type="text" name="numero"/></label>
+    <label>Numéro de l'OT-<input type="text" name="numero" placeholder="123456..."/></label>
     <br/>
     <p class="center"><input type="submit" name="valide" value="Ouvrir"/></p>
     </div>
@@ -59,7 +70,7 @@ if(isset($_POST["valide"])){
 
     //echo gettype($numero_OT).$numero_OT;
 
-    if($_POST["valide"] == "Créer"){    // Si on veut créer un OT
+    if($_POST["valide"] == "Générer"){    // Si on veut créer un OT
 
         $_POST['designation'] = htmlspecialchars($_POST['designation']);
 
@@ -71,7 +82,7 @@ if(isset($_POST["valide"])){
             try{
             $requete->execute(array($numero_OT,$_POST['designation']));
             
-            echo "<p>L'OT a bien été créé!</p>";
+            echo "<p>La partie \"Sécurité et Qualité\" de l'OT a bien été générée!</p>";
 
             }catch (Exception $e)
             {
@@ -92,23 +103,59 @@ if(isset($_POST["valide"])){
         //print_r($data);
 
         if($data["Count"] != 1){
-            echo "<p class=\"red\">Erreur, cet OT n'existe pas, veuillez d'abord en créer un.</p>";
+            echo "<p class=\"red\">Erreur, cet OT ne possède pas encore de partie \"Sécurité et Qualité\", veuillez d'abord en générer un.</p>";
         }
         else{
             // Si tout est OK, on se rend dans l'OT...
+
            echo "Entrer dans l'OT...";
 
            $_SESSION['OT_ID'] = $numero_OT;
 
-            header("Location: OT_1.php");
-        }
-    }
+
+           // MàJ Janvier 2021 : Entrée différente selon l'avancement (redirige par défaut sur la dernière page)
+
+           $reponse = $db->prepare('SELECT GXP_IMPACT, GXP_ALL_DONE, GXP_CAHIER_ROUTE_COMPLET AS GXP_CRC,
+                                     GXP_CAHIER_ROUTE_OBSERV AS GXP_CRO,    SIGNATURE_PROPRIO_DEBUT AS SPD,
+                                     SIGNATURE_INTERVENANT_DEBUT AS SID     FROM OT   WHERE  ID = ? ');
+
+           $reponse->execute(array($_SESSION['OT_ID']));
+
+           $data = $reponse->fetch();
+           $reponse->closeCursor();
+
+            // Si cela, Page 4
+            if(isset($data['GXP_IMPACT']) && isset($data['GXP_ALL_DONE']) && 
+                    ($data['GXP_CRC'] == 1 || strlen($data['GXP_CRO']) > 6) ){
+                header("Location: OT_4.php");
+            }   // Sinon, si cela, Page 3
+            else if(isset($data['SPD']) && isset($data['SID'])){
+                header("Location: OT_3.php");
+            }   
+            else{ // Sinon
+
+                $requete = $db->prepare('SELECT Type, COUNT(*) AS Count FROM OT_RP_EPI, Risques_Precautions_EPI WHERE ID_RP_EPI = ID AND ID_OT = ? GROUP BY Type');
+                $requete->execute(array( $_SESSION['OT_ID']));
+                $nb_categories = 0;
+                while($data = $requete->fetch()){
+                $nb_categories++;  }
+                $requete->closeCursor();
+                    // Si cela, Page 2
+                if($nb_categories >= 3){
+                    header("Location: OT_2.php");
+                }
+                else{ // Si rien, Page 1
+                    header("Location: OT_1.php");
+                } 
+            } // Si Ni Page 3 ou 4
+      } // Si "OT existe"
+    } // Si "Ouvrir"
 }
 
 ?>
 
 
-
+<?php /*
 
 <h2>Interface administrateur</h2>
 
@@ -149,7 +196,7 @@ if(isset($_POST['new'])){
 }
 
 ?>
-
+*/ ?>
 </div>
 
 </body>

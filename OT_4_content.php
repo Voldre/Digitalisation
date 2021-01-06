@@ -21,6 +21,8 @@ $requete->closeCursor();
 <div class="liste0">
 
     <div class="liste_no_border">
+    <h3>Signatures après intervention</h3>
+
     <h4>Signature de l'intervenant :</h4>
     <?php
     if(isset($data['SIGNATURE_INTERVENANT_FIN']) && $data['SIGNATURE_INTERVENANT_FIN'] != "" ){

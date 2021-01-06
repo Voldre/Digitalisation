@@ -28,14 +28,13 @@
 <div class="main">
     <form action="index.php"> <p>
 
- <?php if(basename($_SERVER['PHP_SELF']) != "index.php"){ ?>
+<?php if(basename($_SERVER['PHP_SELF']) != "index.php"){ ?>
 <input type="submit" value ="Retourner à l'accueil" > 
 
     <?php
         if(isset($_SESSION['OT_ID'])){
             echo "OT N°".$_SESSION['OT_ID'];
         }
-    }
         
         if(!isset($_SESSION['message'])){
             $_SESSION['message'] = array();
@@ -49,6 +48,7 @@
         echo "</h5>";
 
         $_SESSION['message'] = array();
+    }
 
         ?>
     </p></form>

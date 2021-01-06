@@ -25,7 +25,7 @@ $requete->closeCursor();
 
 
 
-<h3>N°<?= $_SESSION['OT_ID']?></h3>
+<h3>OT N°<?= $_SESSION['OT_ID']?></h3>
 
 <?php $reponse = $db->prepare('SELECT DESIGNATION FROM OT WHERE ID = ?');
         $reponse->execute(array($_SESSION['OT_ID']));
@@ -71,7 +71,7 @@ foreach($liste_tableau as $cible_global){
     $liste_spaces = array("Anoxie", "Travail en hauteur","Détection azote à proximité","Balisage zone","Oxygènomètre","Protection travailleur isolé");
 
     // Liste des cases en dessous des quelles il faut tracer une ligne
-    $liste_blocs = array(1003,1006,1010,1012);
+    $liste_blocs = array(1003,1005,1010,1012);
 
     foreach($liste_types as $key_type => $value_type){ // Optimisaton pour 1 boucle pour chaque type
    ?>
@@ -177,7 +177,8 @@ $reponse->closeCursor();
 
 
     
-?>
+?>      <div class="page_break"></div>  <!-- MàJ Janvier 2021 : -->
+        <br/> <!-- Espaces utile car l'impression PDF donne saut de page -->
 
 <h3>Autorisations particulières :
     <?php if($data['Autoris'] == 1){ $valueOui = 'checked'; $valueNon = null; }
@@ -188,7 +189,7 @@ $reponse->closeCursor();
         <input type="radio" name="AUTORISATIONS_PARTICULIERES" value=0 <?=$valueNon?> > Non
 </h3>
 
-<p> Si oui :</p>
+<p><br/> Si oui :</p>
     <?php if($data['PP'] == "particulier"){ $valueOui = 'checked'; $valueNon = null; }
             else if($data['PP'] == "annuel"){ $valueOui = null; $valueNon = 'checked'; }
             else{ $valueOui= null; $valueNon = null; } // Si la case n'a jamais été cochée
@@ -200,7 +201,7 @@ $reponse->closeCursor();
 
 <br/><br/>
 
-<h3>Risques biologiques :</h3>
+<h3>Risques biologiques :</h3>      <br/> <!-- MàJ Janvier 2021, saut de ligne pour aérer -->
     <?php if($data['RB'] == 1){ $valueOui = 'checked'; $valueNon = null; }
             else if($data['RB'] == 0){ $valueOui = null; $valueNon = 'checked'; }
             else{ $valueOui= null; $valueNon = null; } // Si la case n'a jamais été cochée
@@ -230,6 +231,7 @@ $data = $requete->fetch();
 
 if(isset($data['SPD']) OR isset($data['SI'])){
     echo "<p class=\"red\">Les réponses ne peuvent plus être mises à jour, le document a déjà été signé par au moins une personne.</p>";
+    echo "<br/><br/><br/>";
 }else{   ?>
 <input type="submit" name="questions" value="Mettre à jour toutes les réponses">  
 

@@ -21,7 +21,9 @@
 
 <style>
 
-
+.page_break{
+    page-break-before: always;
+}
 
 
 body {
@@ -113,6 +115,7 @@ label {
     justify-content: space-around;
     display: inline-flexbox;
     width: 90%;
+    line-height: 92%; /* Dans header_css, à l'impression PDF les items RP_EPI sont moins "espacés" */
 }
 
 .liste_no_border {
@@ -185,29 +188,6 @@ form>* {
 <body>
     
 <div class="main">
-    <form action="index.php"> <p>
 
- <?php if(basename($_SERVER['PHP_SELF']) != "index.php"){ ?>
-<input type="submit" value ="Retourner à l'accueil" > 
-
-    <?php
-        if(isset($_SESSION['OT_ID'])){
-            echo "OT N°".$_SESSION['OT_ID'];
-        }
-    }
-        
-        if(!isset($_SESSION['message'])){
-            $_SESSION['message'] = array();
-        }
-        $_SESSION['message'][] = ("<label>Page ".substr(basename($_SERVER['PHP_SELF']),-5,-4)."/4</label>"); // Reset pour les futures notifications 
-
-        echo "<h5 class=\"float\">";
-        foreach($_SESSION['message'] as $value){
-            echo $value; // Pour afficher les "notifications"
-        }
-        echo "</h5>";
-
-        $_SESSION['message'] = array();
-
-        ?>
-    </p></form>
+<!-- MàJ Janvier 2021, le header de l'export ne génère ni de "Page x/4", 
+        ni de titre d'OT, ni de bouton "Retourner à l'accueil"         -->

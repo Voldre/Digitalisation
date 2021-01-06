@@ -35,8 +35,27 @@ require("OT_2_content.php");
 echo "<br/><form action=\"OT_1.php\"> <p><input type=\"submit\" value =\"Page précédente\" > </p></form>";
 
 
+    // MàJ Janvier 2021 : Texte qui précise de revenir APRES L'INTERVENTION
+
 if(isset($data['SIGNATURE_PROPRIO_DEBUT']) && isset($data['SIGNATURE_INTERVENANT_DEBUT']))
 { 
+
+    $reponse = $db->prepare('SELECT GXP_CAHIER_ROUTE_COMPLET, GXP_CAHIER_ROUTE_OBSERV FROM OT   WHERE  ID = ? ');
+    $reponse->execute(array($_SESSION['OT_ID']));
+    $data = $reponse->fetch();
+    $reponse->closeCursor();
+
+    if($data['GXP_CAHIER_ROUTE_COMPLET'] == 0 & strlen($data['GXP_CAHIER_ROUTE_OBSERV']) <= 6){
+        // Si la page 3 n'a pas encore été saisie
+        // Et que les 2 signatures sont saisies (ligne 38)
+            // Alors, on dit "Tout est OK, revenez plus tard"
+        echo"<br/><label><b>Les signatures ont bien été prises en compte.</b>
+            <br/>Vous pouvez à présent effectuer les différentes opérations de l'Ordre de Travail.
+            <br/><b>Après intervention</b>, vous pourrez continuer la saisie sur la page suivante.</label><br/>";
+        
+            echo "<form action=\"index.php\"><input type=\"submit\" value =\"Retourner à l'accueil\" ></form>";
+        }
+ // Et dans tous les cas, on propose la page suivante, comme ça on force pas le mec à relancer la page s'il veut enchaîner
     echo "<br/><form action=\"OT_3.php\"> <p><input type=\"submit\" value =\"Page suivante\" > </p></form>";
 }
 

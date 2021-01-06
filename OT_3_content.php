@@ -83,6 +83,7 @@ foreach($liste_parametres as $key => $value){   // Enorme simplification des lon
 <?php
     if(isset($data['SIGNATURE_PROPRIO_FIN']) OR isset($data['SIGNATURE_INTERVENANT_FIN']) OR isset($data['SIGNATURE_SQO']) ){
     echo "<p class=\"red\">Les réponses ne peuvent plus être mises à jour, le document a déjà été signé par au moins une personne.</p>";
+        echo "<br/>";
 }else{   ?>
 <input type="submit" name="questions" value="Mettre à jour toutes les réponses">  
 <?php   }   ?>
